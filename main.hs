@@ -1,5 +1,9 @@
 import Parser
 import Data.Set
+-- <--------------- Q1 --------------->
+--Check the required lambda term as 
+-- parse (Lambda_term)
+--If there is no exception or error, then the term is a valid term, else it is not
 
 -- <--------------- Q2 --------------->
 -- Works as findFreeVars "(\\x.x y)" => ["y"]
@@ -13,9 +17,8 @@ findFreeVars :: String -> Set Variable
 findFreeVars s = freeVars x where x=parse s
 
 
-
 -- <-------------- Q3 --------------->
-
+-- Works as substi "(\\y.x)" "x" "z" which is equal to (\y.x) [x:=z]
 subst :: Variable -> Term -> Term -> Term
 subst x (Var y) t = case x == y of
   True -> t
@@ -27,7 +30,9 @@ subst x (Abs y s) t
   | otherwise = let z = fresh (freeVars t `union` freeVars s) in
     Abs z (subst x (subst y s (Var z)) t)
 
-
+substi :: String -> Variable -> String -> Term
+substi x y z = (subst y a b) where a = parse x
+                                   b = parse z
 -- <------------- Q4 --------------->
 
 -- Works As betaReduce "(\\x.x y)(\\a.(\\b. b a c))"  => \b.b y c
