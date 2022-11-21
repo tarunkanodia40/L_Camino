@@ -278,14 +278,14 @@ def do_beta_reduction(v)
         (1..n-2).each do |i|
             if v[i]==']' and v[i+1]=='['
                 a1, b1 = do_beta_reduction(v[1..(i-1)])
-                a2, b2 = do_beta_reduction(v[(i+2)..(n-2)])
+                b2 = v[(i+2)..(n-2)]
                 # puts(b2)
-                if a1==1 and a2==1
+                if a1==1 
                     if b1[0]=="("
                         ## we have the first term as Abs, doing substitution 
                         a12, b12 = substitution(b1[4..(b1.length-2)],b1[2],b2)
                         if a12 == 1
-                            return a12, b12 
+                            return do_beta_reduction(b12)
                         else
                             return a12,ans
                         end
