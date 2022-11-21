@@ -259,12 +259,13 @@ def do_beta_reduction(v)
         end 
     end 
     if v[0] == '('
-        printf "2=>  %s\n",v
+        # printf "2=>  %s\n",v
         if n<5 or v[n-1] != ')' or v[1]!="\\" or not(v[2]>='a' and v[2]<='z') or v[3]!='.' 
             return 0,ans
         end
         a1,b1 = do_beta_reduction(v[4..(n-2)])
         if a1 == 1
+            printf "Type 2 => %s,%s", v ,v[0..3] + b1 + + v[-1..-1]
             return a1, v[0..3] + b1 + + v[-1..-1]
         else 
             return a1,b1 
@@ -274,23 +275,28 @@ def do_beta_reduction(v)
         if v[n-1]!=']'
             return 0, ans
         end
-        printf "1=>  %s\n",v
+        # printf "1=>  %s\n",v
         (1..n-2).each do |i|
             if v[i]==']' and v[i+1]=='['
                 a1, b1 = do_beta_reduction(v[1..(i-1)])
+                a2 = parse( v[(i+2)..(n-2)])
+                # printf "%s => %s \n",v[1..(i-1)],b1
                 b2 = v[(i+2)..(n-2)]
                 # puts(b2)
-                if a1==1 
+                if a1==1 and a2==1
                     if b1[0]=="("
                         ## we have the first term as Abs, doing substitution 
                         a12, b12 = substitution(b1[4..(b1.length-2)],b1[2],b2)
+                        printf "%s <<<<%s>>> %s \n",v[1..(i-1)],b2,b12
                         if a12 == 1
+                            printf "%s => %s \n",v[1..(i-1)],b1
                             return do_beta_reduction(b12)
                         else
                             return a12,ans
                         end
                     else 
-                        return 1, "["+b1+"]["+b2+"]"
+                        a122 , b122 = do_beta_reduction(b2)
+                        return 1, "["+b1+"]["+b122+"]"
                     end
                 end
             end
