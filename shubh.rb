@@ -306,9 +306,10 @@ def do_beta_reduction(v)
 end
 
 input = gets.chomp
-a,b= do_beta_reduction(input)
+# a,b= do_beta_reduction(input)
 # output = parse(input)
 # printf "%d\n",output
-# a,b = substitution(input,"x","(\\a.y)")
+a,b = substitution(input,"x","(\\a.y)")
+# a,b = free_vars input
 printf "\n---Free Vars---\n\n"
 puts b
