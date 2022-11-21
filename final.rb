@@ -332,7 +332,7 @@ def do_beta_reduction(v)
                 end
             end
         end 
-        return 0
+        return 0,ans
     end    
 end
 
